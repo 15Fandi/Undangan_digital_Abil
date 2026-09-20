@@ -1,1182 +1,3440 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#061f1c" />
-    <title>Undangan Khitanan • Nama anak</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
-      :root {
-        --forest: #061f1c;
-        --emerald: #0b3831;
-        --emerald2: #12483f;
-        --gold: #c6a15a;
-        --gold2: #efdca8;
-        --cream: #f5efe1;
-        --paper: #fffdf8;
-        --ink: #17312b;
-        --muted: #737b74;
-        --line: rgba(198, 161, 90, 0.3);
-      }
-      * {
-        box-sizing: border-box;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        margin: 0;
-        background: var(--cream);
-        color: var(--ink);
-        font-family: Inter, Arial, sans-serif;
-      }
-      body.locked {
-        overflow: hidden;
-      }
-      h1,
-      h2,
-      h3,
-      p {
-        margin-top: 0;
-      }
-      .serif {
-        font-family: "Cormorant Garamond", Georgia, serif;
-      }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-      .wrap {
-        width: min(100% - 32px, 980px);
-        margin: auto;
-      }
-      .gold {
-        color: var(--gold2);
-      }
-      /* opening */
-      #cover {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-        background: var(--forest);
-        color: #fff;
-        display: grid;
-        place-items: center;
-        transition:
-          opacity 0.9s,
-          visibility 0.9s;
-      }
-      #cover.hide {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      .cover-frame {
-        position: absolute;
-        inset: 16px;
-        border: 1px solid rgba(239, 220, 168, 0.34);
-      }
-      .cover-frame:before,
-      .cover-frame:after {
-        content: "";
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        border-color: var(--gold);
-        border-style: solid;
-        opacity: 0.55;
-      }
-      .cover-frame:before {
-        top: -1px;
-        left: -1px;
-        border-width: 1px 0 0 1px;
-      }
-      .cover-frame:after {
-        right: -1px;
-        bottom: -1px;
-        border-width: 0 1px 1px 0;
-      }
-      .cover-content {
-        text-align: center;
-        width: min(100% - 50px, 580px);
-        position: relative;
-      }
-      .seal {
-        width: 74px;
-        height: 74px;
-        border: 1px solid var(--gold);
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        margin: 0 auto 28px;
-        color: var(--gold2);
-        font-size: 29px;
-        box-shadow: 0 0 0 8px rgba(198, 161, 90, 0.05);
-      }
-      .overline {
-        text-transform: uppercase;
-        letter-spacing: 0.34em;
-        font-size: 9px;
-        color: var(--gold2);
-        margin-bottom: 18px;
-      }
-      .cover-content h1 {
-        font-size: clamp(45px, 13vw, 82px);
-        line-height: 0.86;
-        font-weight: 500;
-        margin-bottom: 16px;
-      }
-      .cover-child {
-        font-family: "Cormorant Garamond", serif;
-        font-size: 32px;
-        color: var(--gold2);
-        margin-bottom: 24px;
-      }
-      .cover-copy {
-        font-size: 12px;
-        line-height: 1.9;
-        color: rgba(255, 255, 255, 0.62);
-        max-width: 410px;
-        margin: 0 auto 24px;
-      }
-      .guest-box {
-        border-top: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-        padding: 15px;
-        margin-bottom: 25px;
-      }
-      .guest-box small {
-        display: block;
-        font-size: 8px;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.48);
-        margin-bottom: 5px;
-      }
-      .guest-box strong {
-        font:
-          500 21px "Cormorant Garamond",
-          serif;
-      }
-      .open-btn {
-        border: 1px solid var(--gold);
-        background: linear-gradient(135deg, #ecd69c, #b58b43);
-        color: #13231f;
-        padding: 15px 27px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-size: 10px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-      .cover-bottom {
-        margin-top: 24px;
-        font-size: 8px;
-        letter-spacing: 0.24em;
-        color: rgba(255, 255, 255, 0.35);
-        text-transform: uppercase;
-      }
-      /* hero */
-      .hero {
-        min-height: 100svh;
-        background: var(--forest);
-        color: #fff;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-      }
-      .hero:before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(
-            circle at 50% 22%,
-            rgba(198, 161, 90, 0.14),
-            transparent 30%
-          ),
-          radial-gradient(
-            circle at 0 100%,
-            rgba(18, 72, 63, 0.7),
-            transparent 35%
-          );
-      }
-      .hero-orbit {
-        position: absolute;
-        width: 520px;
-        height: 520px;
-        border: 1px solid rgba(198, 161, 90, 0.13);
-        border-radius: 50%;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .hero-orbit:before {
-        content: "";
-        position: absolute;
-        inset: 35px;
-        border: 1px solid rgba(198, 161, 90, 0.08);
-        border-radius: 50%;
-      }
-      .hero-inner {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        width: min(100%, 760px);
-        margin: auto;
-        padding: 80px 18px 60px;
-      }
-      .hero-kicker {
-        font-size: 9px;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--gold2);
-      }
-      .hero h1 {
-        font:
-          500 clamp(54px, 15vw, 110px)/0.82 "Cormorant Garamond",
-          serif;
-        margin: 18px 0;
-        color: #fff;
-      }
-      .hero-sub {
-        color: rgba(255, 255, 255, 0.62);
-        font-size: 13px;
-        line-height: 1.8;
-        max-width: 460px;
-        margin: 0 auto 30px;
-      }
-      .hero-photo {
-        width: min(72vw, 300px);
-        aspect-ratio: 1;
-        border-radius: 50%;
-        margin: 0 auto 25px;
-        border: 1px solid var(--gold);
-        padding: 9px;
-        background: linear-gradient(
-          135deg,
-          rgba(239, 220, 168, 0.5),
-          transparent
-        );
-        box-shadow:
-          0 0 0 9px rgba(198, 161, 90, 0.04),
-          0 30px 70px rgba(0, 0, 0, 0.25);
-      }
-      .hero-photo-inner {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        text-align: center;
-        background: radial-gradient(circle, #17483f, #082a25);
-        color: var(--gold2);
-        font:
-          500 22px "Cormorant Garamond",
-          serif;
-      }
-      .hero-photo-inner small {
-        display: block;
-        font:
-          9px Inter,
-          sans-serif;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.4);
-        margin-top: 5px;
-      }
-      .date-line {
-        font:
-          500 12px Inter,
-          sans-serif;
-        letter-spacing: 0.12em;
-        color: var(--gold2);
-      }
-      /* sections */
-      .section {
-        padding: 95px 0;
-      }
-      .section.dark {
-        background: var(--forest);
-        color: #fff;
-      }
-      .center {
-        text-align: center;
-      }
-      .eyebrow {
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 0.3em;
-        color: #9c793c;
-        margin-bottom: 14px;
-      }
-      .title {
-        font:
-          500 clamp(39px, 10vw, 65px)/0.95 "Cormorant Garamond",
-          serif;
-        color: var(--emerald);
-        margin-bottom: 17px;
-      }
-      .dark .title {
-        color: #fff;
-      }
-      .lead {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.9;
-        max-width: 590px;
-        margin: 0 auto;
-      }
-      .dark .lead {
-        color: rgba(255, 255, 255, 0.58);
-      }
-      .ornament {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: min(100%, 330px);
-        margin: 23px auto;
-      }
-      .ornament i {
-        height: 1px;
-        background: var(--line);
-        flex: 1;
-      }
-      .ornament b {
-        color: var(--gold);
-        font-weight: 400;
-      }
-      /* story */
-      .story {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 28px;
-        margin-top: 45px;
-      }
-      .story-card {
-        background: var(--paper);
-        padding: 30px;
-        border: 1px solid var(--line);
-        box-shadow: 0 18px 55px rgba(8, 45, 39, 0.08);
-      }
-      .story-card h3 {
-        font:
-          600 28px "Cormorant Garamond",
-          serif;
-        color: var(--emerald);
-        margin-bottom: 10px;
-      }
-      .story-card p {
-        font-size: 13px;
-        line-height: 1.9;
-        color: var(--muted);
-        margin: 0;
-      }
-      /* details */
-      .detail-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1px;
-        background: var(--line);
-        margin-top: 40px;
-        border: 1px solid var(--line);
-      }
-      .detail {
-        background: var(--paper);
-        padding: 28px 16px;
-        text-align: center;
-      }
-      .detail .icon {
-        font-size: 19px;
-        margin-bottom: 10px;
-      }
-      .detail h3 {
-        font:
-          600 22px "Cormorant Garamond",
-          serif;
-        color: var(--emerald);
-        margin-bottom: 5px;
-      }
-      .detail p {
-        font-size: 11px;
-        color: var(--muted);
-        line-height: 1.7;
-        margin: 0;
-      }
-      /* countdown */
-      .countdown {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1px;
-        background: rgba(239, 220, 168, 0.22);
-        margin: 35px auto 0;
-        max-width: 640px;
-        border: 1px solid rgba(239, 220, 168, 0.22);
-      }
-      .countdown div {
-        padding: 17px 4px;
-        background: rgba(255, 255, 255, 0.025);
-      }
-      .countdown strong {
-        display: block;
-        font:
-          500 29px "Cormorant Garamond",
-          serif;
-        color: var(--gold2);
-      }
-      .countdown span {
-        font-size: 7px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: rgba(255, 255, 255, 0.45);
-      }
-      /* map */
-      .map {
-        margin-top: 40px;
-        background: var(--paper);
-        border: 1px solid var(--line);
-        padding: 30px;
-        box-shadow: 0 18px 55px rgba(8, 45, 39, 0.08);
-      }
-      .map h3 {
-        font:
-          500 30px "Cormorant Garamond",
-          serif;
-        color: var(--emerald);
-      }
-      .map p {
-        font-size: 12px;
-        line-height: 1.8;
-        color: var(--muted);
-      }
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 46px;
-        padding: 0 22px;
-        border: 1px solid var(--emerald);
-        color: var(--emerald);
-        font-size: 9px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        font-weight: 700;
-      }
-      .btn.gold {
-        background: linear-gradient(135deg, #ecd69c, #b58b43);
-        border: 0;
-        color: #14231f;
-      }
-      /* envelope */
-      .envelope-shell {
-        max-width: 700px;
-        margin: 40px auto 0;
-        background: linear-gradient(145deg, #0c4037, #061f1c);
-        padding: 13px;
-        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.25);
-      }
-      .envelope {
-        border: 1px solid rgba(239, 220, 168, 0.34);
-        padding: 40px 23px;
-        text-align: center;
-      }
-      .envelope-icon {
-        font-size: 35px;
-        color: var(--gold2);
-        margin-bottom: 12px;
-      }
-      .account {
-        background: rgba(255, 255, 255, 0.045);
-        border: 1px solid rgba(239, 220, 168, 0.18);
-        padding: 19px;
-        margin-top: 13px;
-        text-align: left;
-      }
-      .account small {
-        display: block;
-        color: rgba(255, 255, 255, 0.43);
-        font-size: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-      }
-      .account strong {
-        display: block;
-        font:
-          500 27px "Cormorant Garamond",
-          serif;
-        color: #fff;
-        margin: 6px 0;
-      }
-      .account span {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.58);
-      }
-      .copy {
-        margin-top: 12px;
-        width: 100%;
-        height: 38px;
-        border: 1px solid rgba(239, 220, 168, 0.4);
-        background: transparent;
-        color: var(--gold2);
-        font-size: 9px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-      /* wishes */
-      .form {
-        max-width: 650px;
-        margin: 35px auto 0;
-        background: var(--paper);
-        border: 1px solid var(--line);
-        padding: 25px;
-      }
-      .form input,
-      .form textarea {
-        width: 100%;
-        border: 0;
-        border-bottom: 1px solid #ddd5c6;
-        background: transparent;
-        padding: 13px 0;
-        margin-bottom: 17px;
-        outline: 0;
-        color: var(--ink);
-        font:
-          13px Inter,
-          sans-serif;
-      }
-      .form textarea {
-        min-height: 100px;
-        resize: vertical;
-      }
-      .messages {
-        max-width: 650px;
-        margin: 25px auto 0;
-      }
-      .message {
-        padding: 17px 0;
-        border-bottom: 1px solid #ded7ca;
-      }
-      .message strong {
-        font:
-          600 21px "Cormorant Garamond",
-          serif;
-        color: var(--emerald);
-      }
-      .message p {
-        font-size: 12px;
-        line-height: 1.8;
-        color: var(--muted);
-        margin: 4px 0 0;
-      }
-      /* footer */
-      footer {
-        background: #041714;
-        color: #fff;
-        text-align: center;
-        padding: 70px 20px 90px;
-      }
-      .footer-mark {
-        width: 48px;
-        height: 48px;
-        border: 1px solid var(--gold);
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        margin: 0 auto 17px;
-        color: var(--gold2);
-      }
-      footer h2 {
-        font:
-          500 40px "Cormorant Garamond",
-          serif;
-        margin-bottom: 8px;
-      }
-      footer p {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.45);
-      }
-      .music {
-        position: fixed;
-        right: 16px;
-        bottom: 16px;
-        z-index: 80;
-        width: 47px;
-        height: 47px;
-        border-radius: 50%;
-        border: 1px solid var(--gold);
-        background: var(--forest);
-        color: var(--gold2);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        cursor: pointer;
-      }
-      /* animations */
-      .reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition:
-          opacity 0.9s ease,
-          transform 0.9s ease;
-      }
-      .reveal.visible {
-        opacity: 1;
-        transform: none;
-      }
-      .gold-shimmer {
-        background: linear-gradient(100deg, var(--gold), #fff2bf, var(--gold));
-        background-size: 220% auto;
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        animation: shine 5s linear infinite;
-      }
-      @keyframes shine {
-        to {
-          background-position: 220% center;
-        }
-      }
-      @media (min-width: 700px) {
-        .story {
-          grid-template-columns: 1fr 1fr;
-        }
-        .detail-grid {
-          grid-template-columns: repeat(4, 1fr);
-        }
-        .section {
-          padding: 120px 0;
-        }
-      }
 
-      /* SVG luxury motion system */
-      .svg-ornament {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        overflow: hidden;
-      }
-      .svg-ornament svg {
-        width: 100%;
-        height: 100%;
-      }
-      .svg-line {
-        fill: none;
-        stroke: var(--gold);
-        stroke-width: 1;
-        opacity: 0.5;
-        stroke-dasharray: 7 12;
-        animation: svgDash 18s linear infinite;
-      }
-      .svg-line-soft {
-        fill: none;
-        stroke: var(--gold2);
-        stroke-width: 0.7;
-        opacity: 0.18;
-      }
-      .svg-star {
-        fill: var(--gold2);
-        opacity: 0.7;
-        transform-box: fill-box;
-        transform-origin: center;
-        animation: svgPulse 3.8s ease-in-out infinite;
-      }
-      .svg-star.s2 {
-        animation-delay: 1.2s;
-      }
-      .svg-star.s3 {
-        animation-delay: 2.3s;
-      }
-      .svg-petal {
-        fill: none;
-        stroke: var(--gold);
-        stroke-width: 1;
-        opacity: 0.32;
-        transform-origin: center;
-        animation: svgRotate 24s linear infinite;
-      }
-      .svg-petal.reverse {
-        animation-direction: reverse;
-        animation-duration: 30s;
-      }
-      .svg-draw {
-        fill: none;
-        stroke: var(--gold2);
-        stroke-width: 1;
-        stroke-linecap: round;
-        stroke-dasharray: 900;
-        stroke-dashoffset: 900;
-        animation: svgDraw 5s ease forwards;
-      }
-      @keyframes svgDash {
-        to {
-          stroke-dashoffset: -380;
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1,viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#061f1c"
+    >
+
+    <title>
+        Undangan Khitanan • Abilhaq Daniyal El Fatih
+    </title>
+
+
+    <style>
+
+        @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+
+        :root {
+
+            --forest: #061f1c;
+            --emerald: #0b3831;
+            --emerald2: #12483f;
+
+            --gold: #c6a15a;
+            --gold2: #efdca8;
+
+            --cream: #f5efe1;
+            --paper: #fffdf8;
+
+            --ink: #17312b;
+            --muted: #737b74;
+
+            --line: rgba(198, 161, 90, 0.3);
         }
-      }
-      @keyframes svgPulse {
-        0%,
-        100% {
-          transform: scale(0.65);
-          opacity: 0.18;
+
+
+        * {
+            box-sizing: border-box;
         }
-        50% {
-          transform: scale(1.2);
-          opacity: 0.9;
+
+
+        html {
+            scroll-behavior: smooth;
         }
-      }
-      @keyframes svgRotate {
-        to {
-          transform: rotate(360deg);
+
+
+        body {
+
+            margin: 0;
+
+            background:
+                var(--cream);
+
+            color:
+                var(--ink);
+
+            font-family:
+                Inter,
+                Arial,
+                sans-serif;
         }
-      }
-      @keyframes svgDraw {
-        to {
-          stroke-dashoffset: 0;
+
+
+        body.locked {
+            overflow: hidden;
         }
-      }
-      .hero-orbit {
-        animation: orbitFloat 9s ease-in-out infinite;
-      }
-      @keyframes orbitFloat {
-        0%,
-        100% {
-          transform: translate(-50%, -50%) scale(0.98);
+
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
         }
-        50% {
-          transform: translate(-50%, -50%) scale(1.03);
+
+
+        .serif {
+
+            font-family:
+                "Cormorant Garamond",
+                Georgia,
+                serif;
         }
-      }
+
+
+        a {
+
+            text-decoration: none;
+
+            color: inherit;
+        }
+
+
+        .wrap {
+
+            width:
+                min(100% - 32px, 980px);
+
+            margin:
+                auto;
+        }
+
+
+        .gold {
+            color: var(--gold2);
+        }
+
+
+        /* =====================================================
+           COVER
+        ===================================================== */
+
+        #cover {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 1000;
+
+            background:
+                var(--forest);
+
+            color: #fff;
+
+            display: grid;
+
+            place-items: center;
+
+            transition:
+                opacity .9s,
+                visibility .9s;
+        }
+
+
+        #cover.hide {
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+        }
+
+
+        .cover-frame {
+
+            position: absolute;
+
+            inset: 16px;
+
+            border:
+                1px solid rgba(239,220,168,.34);
+        }
+
+
+        .cover-frame:before,
+        .cover-frame:after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+
+            height: 100px;
+
+            border-color:
+                var(--gold);
+
+            border-style:
+                solid;
+
+            opacity:
+                .55;
+        }
+
+
+        .cover-frame:before {
+
+            top: -1px;
+
+            left: -1px;
+
+            border-width:
+                1px 0 0 1px;
+        }
+
+
+        .cover-frame:after {
+
+            right: -1px;
+
+            bottom: -1px;
+
+            border-width:
+                0 1px 1px 0;
+        }
+
+
+        .cover-content {
+
+            text-align:
+                center;
+
+            width:
+                min(100% - 50px, 580px);
+
+            position:
+                relative;
+        }
+
+
+        .seal {
+
+            width:
+                74px;
+
+            height:
+                74px;
+
+            border:
+                1px solid var(--gold);
+
+            border-radius:
+                50%;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            margin:
+                0 auto 28px;
+
+            color:
+                var(--gold2);
+
+            font-size:
+                29px;
+
+            box-shadow:
+                0 0 0 8px rgba(198,161,90,.05);
+        }
+
+
+        .overline {
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .34em;
+
+            font-size:
+                9px;
+
+            color:
+                var(--gold2);
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .cover-content h1 {
+
+            font-size:
+                clamp(45px,13vw,82px);
+
+            line-height:
+                .86;
+
+            font-weight:
+                500;
+
+            margin-bottom:
+                16px;
+        }
+
+
+        .cover-child {
+
+            font-family:
+                "Cormorant Garamond",
+                serif;
+
+            font-size:
+                32px;
+
+            color:
+                var(--gold2);
+
+            margin-bottom:
+                24px;
+        }
+
+
+        .cover-copy {
+
+            font-size:
+                12px;
+
+            line-height:
+                1.9;
+
+            color:
+                rgba(255,255,255,.62);
+
+            max-width:
+                410px;
+
+            margin:
+                0 auto 24px;
+        }
+
+
+        .guest-box {
+
+            border-top:
+                1px solid var(--line);
+
+            border-bottom:
+                1px solid var(--line);
+
+            padding:
+                15px;
+
+            margin-bottom:
+                25px;
+        }
+
+
+        .guest-box small {
+
+            display:
+                block;
+
+            font-size:
+                8px;
+
+            letter-spacing:
+                .24em;
+
+            text-transform:
+                uppercase;
+
+            color:
+                rgba(255,255,255,.48);
+
+            margin-bottom:
+                5px;
+        }
+
+
+        .guest-box strong {
+
+            font:
+                500 21px "Cormorant Garamond",
+                serif;
+        }
+
+
+        .open-btn {
+
+            border:
+                1px solid var(--gold);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ecd69c,
+                    #b58b43
+                );
+
+            color:
+                #13231f;
+
+            padding:
+                15px 27px;
+
+            letter-spacing:
+                .12em;
+
+            text-transform:
+                uppercase;
+
+            font-size:
+                10px;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+        }
+
+
+        .cover-bottom {
+
+            margin-top:
+                24px;
+
+            font-size:
+                8px;
+
+            letter-spacing:
+                .24em;
+
+            color:
+                rgba(255,255,255,.35);
+
+            text-transform:
+                uppercase;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+
+            min-height:
+                100svh;
+
+            background:
+                var(--forest);
+
+            color:
+                #fff;
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+        }
+
+
+        .hero:before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            background:
+                radial-gradient(
+                    circle at 50% 22%,
+                    rgba(198,161,90,.14),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 0 100%,
+                    rgba(18,72,63,.7),
+                    transparent 35%
+                );
+        }
+
+
+        .hero-orbit {
+
+            position:
+                absolute;
+
+            width:
+                520px;
+
+            height:
+                520px;
+
+            border:
+                1px solid rgba(198,161,90,.13);
+
+            border-radius:
+                50%;
+
+            left:
+                50%;
+
+            top:
+                50%;
+
+            transform:
+                translate(-50%,-50%);
+        }
+
+
+        .hero-orbit:before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            inset:
+                35px;
+
+            border:
+                1px solid rgba(198,161,90,.08);
+
+            border-radius:
+                50%;
+        }
+
+
+        .hero-inner {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            text-align:
+                center;
+
+            width:
+                min(100%,760px);
+
+            margin:
+                auto;
+
+            padding:
+                80px 18px 60px;
+        }
+
+
+        .hero-kicker {
+
+            font-size:
+                9px;
+
+            letter-spacing:
+                .3em;
+
+            text-transform:
+                uppercase;
+
+            color:
+                var(--gold2);
+        }
+
+
+        .hero h1 {
+
+            font:
+                500 clamp(54px,15vw,110px)/.82
+                "Cormorant Garamond",
+                serif;
+
+            margin:
+                18px 0;
+
+            color:
+                #fff;
+        }
+
+
+        .hero-sub {
+
+            color:
+                rgba(255,255,255,.62);
+
+            font-size:
+                13px;
+
+            line-height:
+                1.8;
+
+            max-width:
+                460px;
+
+            margin:
+                0 auto 30px;
+        }
+
+
+        .hero-photo {
+
+            width:
+                min(72vw,300px);
+
+            aspect-ratio:
+                1;
+
+            border-radius:
+                50%;
+
+            margin:
+                0 auto 25px;
+
+            border:
+                1px solid var(--gold);
+
+            padding:
+                9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(239,220,168,.5),
+                    transparent
+                );
+
+            box-shadow:
+                0 0 0 9px rgba(198,161,90,.04),
+                0 30px 70px rgba(0,0,0,.25);
+        }
+
+
+        .hero-photo img {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            object-fit:
+                cover;
+
+            background-position:
+                center;
+
+            background-repeat:
+                no-repeat;
+
+            border-radius:
+                100%;
+        }
+
+
+        .date-line {
+
+            font:
+                500 12px Inter,
+                sans-serif;
+
+            letter-spacing:
+                .12em;
+
+            color:
+                var(--gold2);
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .section {
+
+            padding:
+                95px 0;
+        }
+
+
+        .section.dark {
+
+            background:
+                var(--forest);
+
+            color:
+                #fff;
+        }
+
+
+        .center {
+            text-align: center;
+        }
+
+
+        .eyebrow {
+
+            font-size:
+                9px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .3em;
+
+            color:
+                #9c793c;
+
+            margin-bottom:
+                14px;
+        }
+
+
+        .title {
+
+            font:
+                500 clamp(39px,10vw,65px)/.95
+                "Cormorant Garamond",
+                serif;
+
+            color:
+                var(--emerald);
+
+            margin-bottom:
+                17px;
+        }
+
+
+        .dark .title {
+            color: #fff;
+        }
+
+
+        .lead {
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+
+            line-height:
+                1.9;
+
+            max-width:
+                590px;
+
+            margin:
+                0 auto;
+        }
+
+
+        .dark .lead {
+
+            color:
+                rgba(255,255,255,.58);
+        }
+
+
+        .ornament {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+            width:
+                min(100%,330px);
+
+            margin:
+                23px auto;
+        }
+
+
+        .ornament i {
+
+            height:
+                1px;
+
+            background:
+                var(--line);
+
+            flex:
+                1;
+        }
+
+
+        .ornament b {
+
+            color:
+                var(--gold);
+
+            font-weight:
+                400;
+        }
+
+
+        /* =====================================================
+           STORY
+        ===================================================== */
+
+        .story {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr;
+
+            gap:
+                28px;
+
+            margin-top:
+                45px;
+        }
+
+
+        .story-card {
+
+            background:
+                var(--paper);
+
+            padding:
+                30px;
+
+            border:
+                1px solid var(--line);
+
+            box-shadow:
+                0 18px 55px rgba(8,45,39,.08);
+        }
+
+
+        .story-card h3 {
+
+            font:
+                600 28px "Cormorant Garamond",
+                serif;
+
+            color:
+                var(--emerald);
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .story-card p {
+
+            font-size:
+                13px;
+
+            line-height:
+                1.9;
+
+            color:
+                var(--muted);
+
+            margin:
+                0;
+        }
+
+
+        /* =====================================================
+           DETAIL
+        ===================================================== */
+
+        .detail-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                1px;
+
+            background:
+                var(--line);
+
+            margin-top:
+                40px;
+
+            border:
+                1px solid var(--line);
+        }
+
+
+        .detail {
+
+            background:
+                var(--paper);
+
+            padding:
+                28px 16px;
+
+            text-align:
+                center;
+        }
+
+
+        .detail .icon {
+
+            font-size:
+                19px;
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .detail h3 {
+
+            font:
+                600 22px "Cormorant Garamond",
+                serif;
+
+            color:
+                var(--emerald);
+
+            margin-bottom:
+                5px;
+        }
+
+
+        .detail p {
+
+            font-size:
+                11px;
+
+            color:
+                var(--muted);
+
+            line-height:
+                1.7;
+
+            margin:
+                0;
+        }
+
+
+        /* =====================================================
+           COUNTDOWN
+        ===================================================== */
+
+        .countdown {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap:
+                1px;
+
+            background:
+                rgba(239,220,168,.22);
+
+            margin:
+                35px auto 0;
+
+            max-width:
+                640px;
+
+            border:
+                1px solid rgba(239,220,168,.22);
+        }
+
+
+        .countdown div {
+
+            padding:
+                17px 4px;
+
+            background:
+                rgba(255,255,255,.025);
+        }
+
+
+        .countdown strong {
+
+            display:
+                block;
+
+            font:
+                500 29px "Cormorant Garamond",
+                serif;
+
+            color:
+                var(--gold2);
+        }
+
+
+        .countdown span {
+
+            font-size:
+                7px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .16em;
+
+            color:
+                rgba(255,255,255,.45);
+        }
+
+
+        /* =====================================================
+           MAP
+        ===================================================== */
+
+        .map {
+
+            margin-top:
+                40px;
+
+            background:
+                var(--paper);
+
+            border:
+                1px solid var(--line);
+
+            padding:
+                30px;
+
+            box-shadow:
+                0 18px 55px rgba(8,45,39,.08);
+        }
+
+
+        .map h3 {
+
+            font:
+                500 30px "Cormorant Garamond",
+                serif;
+
+            color:
+                var(--emerald);
+        }
+
+
+        .map p {
+
+            font-size:
+                12px;
+
+            line-height:
+                1.8;
+
+            color:
+                var(--muted);
+        }
+
+
+        .btn {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            min-height:
+                46px;
+
+            padding:
+                0 22px;
+
+            border:
+                1px solid var(--emerald);
+
+            color:
+                var(--emerald);
+
+            font-size:
+                9px;
+
+            letter-spacing:
+                .14em;
+
+            text-transform:
+                uppercase;
+
+            font-weight:
+                700;
+        }
+
+
+        .btn.gold {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ecd69c,
+                    #b58b43
+                );
+
+            border:
+                0;
+
+            color:
+                #14231f;
+        }
+
+
+        /* =====================================================
+           ENVELOPE
+        ===================================================== */
+
+        .envelope-shell {
+
+            max-width:
+                700px;
+
+            margin:
+                40px auto 0;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0c4037,
+                    #061f1c
+                );
+
+            padding:
+                13px;
+
+            box-shadow:
+                0 28px 80px rgba(0,0,0,.25);
+        }
+
+
+        .envelope {
+
+            border:
+                1px solid rgba(239,220,168,.34);
+
+            padding:
+                40px 23px;
+
+            text-align:
+                center;
+        }
+
+
+        .envelope-icon {
+
+            font-size:
+                35px;
+
+            color:
+                var(--gold2);
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .account {
+
+            background:
+                rgba(255,255,255,.045);
+
+            border:
+                1px solid rgba(239,220,168,.18);
+
+            padding:
+                19px;
+
+            margin-top:
+                13px;
+
+            text-align:
+                left;
+        }
+
+
+        .account small {
+
+            display:
+                block;
+
+            color:
+                rgba(255,255,255,.43);
+
+            font-size:
+                8px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .2em;
+        }
+
+
+        .account strong {
+
+            display:
+                block;
+
+            font:
+                500 27px "Cormorant Garamond",
+                serif;
+
+            color:
+                #fff;
+
+            margin:
+                6px 0;
+        }
+
+
+        .account span {
+
+            font-size:
+                11px;
+
+            color:
+                rgba(255,255,255,.58);
+        }
+
+
+        .copy {
+
+            margin-top:
+                12px;
+
+            width:
+                100%;
+
+            height:
+                38px;
+
+            border:
+                1px solid rgba(239,220,168,.4);
+
+            background:
+                transparent;
+
+            color:
+                var(--gold2);
+
+            font-size:
+                9px;
+
+            letter-spacing:
+                .14em;
+
+            text-transform:
+                uppercase;
+
+            cursor:
+                pointer;
+        }
+
+
+        /* =====================================================
+           UCAPAN
+        ===================================================== */
+
+        .form {
+
+            max-width:
+                650px;
+
+            margin:
+                35px auto 0;
+
+            background:
+                var(--paper);
+
+            border:
+                1px solid var(--line);
+
+            padding:
+                25px;
+        }
+
+
+        .form input,
+        .form textarea {
+
+            width:
+                100%;
+
+            border:
+                0;
+
+            border-bottom:
+                1px solid #ddd5c6;
+
+            background:
+                transparent;
+
+            padding:
+                13px 0;
+
+            margin-bottom:
+                17px;
+
+            outline:
+                0;
+
+            color:
+                var(--ink);
+
+            font:
+                13px Inter,
+                sans-serif;
+        }
+
+
+        .form textarea {
+
+            min-height:
+                100px;
+
+            resize:
+                vertical;
+        }
+
+
+        .messages {
+
+            max-width:
+                650px;
+
+            margin:
+                25px auto 0;
+        }
+
+
+        .message {
+
+            padding:
+                17px 0;
+
+            border-bottom:
+                1px solid #ded7ca;
+
+            text-align:
+                left;
+        }
+
+
+        .message strong {
+
+            font:
+                600 21px "Cormorant Garamond",
+                serif;
+
+            color:
+                var(--emerald);
+        }
+
+
+        .message p {
+
+            font-size:
+                12px;
+
+            line-height:
+                1.8;
+
+            color:
+                var(--muted);
+
+            margin:
+                4px 0 0;
+        }
+
+
+        .message-empty {
+
+            text-align:
+                center;
+
+            padding:
+                25px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            background:
+                #041714;
+
+            color:
+                #fff;
+
+            text-align:
+                center;
+
+            padding:
+                70px 20px 90px;
+        }
+
+
+        .footer-mark {
+
+            width:
+                48px;
+
+            height:
+                48px;
+
+            border:
+                1px solid var(--gold);
+
+            border-radius:
+                50%;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            margin:
+                0 auto 17px;
+
+            color:
+                var(--gold2);
+        }
+
+
+        footer h2 {
+
+            font:
+                500 40px "Cormorant Garamond",
+                serif;
+
+            margin-bottom:
+                8px;
+        }
+
+
+        footer p {
+
+            font-size:
+                11px;
+
+            color:
+                rgba(255,255,255,.45);
+        }
+
+
+        /* =====================================================
+           MUSIC
+        ===================================================== */
+
+        .music {
+
+            position:
+                fixed;
+
+            right:
+                16px;
+
+            bottom:
+                16px;
+
+            z-index:
+                80;
+
+            width:
+                47px;
+
+            height:
+                47px;
+
+            border-radius:
+                50%;
+
+            border:
+                1px solid var(--gold);
+
+            background:
+                var(--forest);
+
+            color:
+                var(--gold2);
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.25);
+
+            cursor:
+                pointer;
+        }
+
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        .reveal {
+
+            opacity:
+                0;
+
+            transform:
+                translateY(30px);
+
+            transition:
+                opacity .9s ease,
+                transform .9s ease;
+        }
+
+
+        .reveal.visible {
+
+            opacity:
+                1;
+
+            transform:
+                none;
+        }
+
+
+        .gold-shimmer {
+
+            background:
+                linear-gradient(
+                    100deg,
+                    var(--gold),
+                    #fff2bf,
+                    var(--gold)
+                );
+
+            background-size:
+                220% auto;
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+
+            animation:
+                shine 5s linear infinite;
+        }
+
+
+        @keyframes shine {
+
+            to {
+                background-position:
+                    220% center;
+            }
+
+        }
+
+
+        .hero-orbit {
+
+            animation:
+                orbitFloat 9s ease-in-out infinite;
+        }
+
+
+        @keyframes orbitFloat {
+
+            0%,
+            100% {
+
+                transform:
+                    translate(-50%,-50%)
+                    scale(.98);
+            }
+
+            50% {
+
+                transform:
+                    translate(-50%,-50%)
+                    scale(1.03);
+            }
+
+        }
+
+
+        /* =====================================================
+           SVG
+        ===================================================== */
+
+        .svg-ornament {
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            pointer-events:
+                none;
+
+            overflow:
+                hidden;
+        }
+
+
+        .svg-ornament svg {
+
+            width:
+                100%;
+
+            height:
+                100%;
+        }
+
+
+        .svg-line {
+
+            fill:
+                none;
+
+            stroke:
+                var(--gold);
+
+            stroke-width:
+                1;
+
+            opacity:
+                .5;
+
+            stroke-dasharray:
+                7 12;
+
+            animation:
+                svgDash 18s linear infinite;
+        }
+
+
+        .svg-line-soft {
+
+            fill:
+                none;
+
+            stroke:
+                var(--gold2);
+
+            stroke-width:
+                .7;
+
+            opacity:
+                .18;
+        }
+
+
+        .svg-star {
+
+            fill:
+                var(--gold2);
+
+            opacity:
+                .7;
+
+            transform-box:
+                fill-box;
+
+            transform-origin:
+                center;
+
+            animation:
+                svgPulse 3.8s ease-in-out infinite;
+        }
+
+
+        .svg-star.s2 {
+            animation-delay:
+                1.2s;
+        }
+
+
+        .svg-star.s3 {
+            animation-delay:
+                2.3s;
+        }
+
+
+        .svg-petal {
+
+            fill:
+                none;
+
+            stroke:
+                var(--gold);
+
+            stroke-width:
+                1;
+
+            opacity:
+                .32;
+
+            transform-origin:
+                center;
+
+            animation:
+                svgRotate 24s linear infinite;
+        }
+
+
+        .svg-petal.reverse {
+
+            animation-direction:
+                reverse;
+
+            animation-duration:
+                30s;
+        }
+
+
+        .svg-draw {
+
+            fill:
+                none;
+
+            stroke:
+                var(--gold2);
+
+            stroke-width:
+                1;
+
+            stroke-linecap:
+                round;
+
+            stroke-dasharray:
+                900;
+
+            stroke-dashoffset:
+                900;
+
+            animation:
+                svgDraw 5s ease forwards;
+        }
+
+
+        @keyframes svgDash {
+
+            to {
+                stroke-dashoffset:
+                    -380;
+            }
+
+        }
+
+
+        @keyframes svgPulse {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(.65);
+
+                opacity:
+                    .18;
+            }
+
+            50% {
+
+                transform:
+                    scale(1.2);
+
+                opacity:
+                    .9;
+            }
+
+        }
+
+
+        @keyframes svgRotate {
+
+            to {
+
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
+
+        @keyframes svgDraw {
+
+            to {
+
+                stroke-dashoffset:
+                    0;
+            }
+
+        }
+
+
+        /* =====================================================
+           DESKTOP
+        ===================================================== */
+
+        @media (min-width:700px) {
+
+            .story {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .detail-grid {
+
+                grid-template-columns:
+                    repeat(4,1fr);
+            }
+
+
+            .section {
+
+                padding:
+                    120px 0;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width:600px) {
+
+            .cover-content h1 {
+                font-size:
+                    48px;
+            }
+
+
+            .cover-child {
+                font-size:
+                    25px;
+            }
+
+
+            .detail-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .countdown strong {
+                font-size:
+                    25px;
+            }
+
+
+            footer h2 {
+                font-size:
+                    30px;
+            }
+
+        }
+
     </style>
-  </head>
-  <body class="locked">
+
+</head>
+
+
+<body class="locked">
+
+
+    <!-- =====================================================
+         COVER
+    ===================================================== -->
+
     <div id="cover">
-      <div class="cover-frame"></div>
-      <div class="svg-ornament" aria-hidden="true">
-        <svg viewBox="0 0 600 900" preserveAspectRatio="none">
-          <defs>
-            <pattern
-              id="geo"
-              width="80"
-              height="80"
-              patternUnits="userSpaceOnUse"
+
+        <div class="cover-frame"></div>
+
+
+        <div class="svg-ornament">
+
+            <svg
+                viewBox="0 0 600 900"
+                preserveAspectRatio="none"
             >
-              <path
-                d="M40 5L75 40 40 75 5 40Z M40 20L60 40 40 60 20 40Z"
-                class="svg-line-soft"
-              />
-            </pattern>
-          </defs>
-          <rect width="600" height="900" fill="url(#geo)" opacity=".12" />
-          <path class="svg-line" d="M-20 720 Q150 560 300 720 T620 720" />
-          <path class="svg-line" d="M-30 180 Q140 340 300 180 T630 180" />
-          <g class="svg-petal" transform="translate(300 450)">
-            <ellipse rx="170" ry="58" />
-            <ellipse rx="170" ry="58" transform="rotate(45)" />
-            <ellipse rx="170" ry="58" transform="rotate(90)" />
-            <ellipse rx="170" ry="58" transform="rotate(135)" />
-          </g>
-          <g>
-            <circle class="svg-star" cx="90" cy="150" r="2" />
-            <circle class="svg-star s2" cx="510" cy="240" r="2" />
-            <circle class="svg-star s3" cx="120" cy="700" r="2" />
-            <circle class="svg-star" cx="490" cy="760" r="2" />
-          </g>
-        </svg>
-      </div>
-      <div class="cover-content">
-        <div class="seal">☾</div>
-        <div class="overline">A sacred celebration</div>
-        <h1 class="serif">Undangan<br />Khitanan</h1>
-        <div class="cover-child gold-shimmer">Anak pak ridwan</div>
-        <p class="cover-copy">
-          Dengan penuh syukur dan kebahagiaan, kami mengundang Bapak/Ibu/Saudara
-          untuk hadir dalam momen istimewa keluarga kami.
-        </p>
-        <div class="guest-box">
-          <small>Kepada Yth.</small
-          ><strong id="guestCover">Tamu Undangan</strong>
+
+                <path
+                    class="svg-line"
+                    d="M-20 720 Q150 560 300 720 T620 720"
+                />
+
+                <path
+                    class="svg-line"
+                    d="M-30 180 Q140 340 300 180 T630 180"
+                />
+
+            </svg>
+
         </div>
-        <button class="open-btn" id="openBtn">Buka Undangan</button>
-        <div class="cover-bottom">Dengan doa & kasih • 2026</div>
-      </div>
+
+
+        <div class="cover-content">
+
+
+            <div class="seal">
+                ☾
+            </div>
+
+
+            <div class="overline">
+                Perayaan Sakral
+            </div>
+
+
+            <h1 class="serif">
+
+                Undangan<br>
+
+                Khitanan
+
+            </h1>
+
+
+            <div class="cover-child gold-shimmer">
+
+                ABILHAQ DANIYAL EL FATIH
+
+            </div>
+
+
+            <p class="cover-copy">
+
+                Dengan penuh syukur dan kebahagiaan,
+                kami mengundang Bapak/Ibu/Saudara
+                untuk hadir dalam momen istimewa
+                keluarga kami.
+
+            </p>
+
+
+            <div class="guest-box">
+
+                <small>
+                    Kepada Yth.
+                </small>
+
+                <strong id="guestCover">
+                    Tamu Undangan
+                </strong>
+
+            </div>
+
+
+            <button
+                class="open-btn"
+                id="openBtn"
+                type="button"
+            >
+
+                Buka Undangan
+
+            </button>
+
+
+            <div class="cover-bottom">
+
+                Dengan doa & kasih • 2026
+
+            </div>
+
+        </div>
+
     </div>
 
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
     <main id="main">
-      <section class="hero">
-        <div class="hero-orbit"></div>
-        <div class="svg-ornament" aria-hidden="true">
-          <svg viewBox="0 0 800 900" preserveAspectRatio="none">
-            <path
-              class="svg-draw"
-              d="M70 650 C130 510 120 370 70 250 C190 300 270 240 330 120"
-            />
-            <path
-              class="svg-draw"
-              d="M730 650 C670 510 680 370 730 250 C610 300 530 240 470 120"
-              style="animation-delay: 0.7s"
-            />
-            <g class="svg-petal reverse" transform="translate(400 450)">
-              <ellipse rx="270" ry="95" />
-              <ellipse rx="270" ry="95" transform="rotate(45)" />
-              <ellipse rx="270" ry="95" transform="rotate(90)" />
-              <ellipse rx="270" ry="95" transform="rotate(135)" />
-            </g>
-            <circle class="svg-star" cx="160" cy="170" r="2" />
-            <circle class="svg-star s2" cx="640" cy="190" r="2" />
-            <circle class="svg-star s3" cx="115" cy="720" r="2" />
-            <circle class="svg-star" cx="685" cy="700" r="2" />
-          </svg>
-        </div>
-        <div class="hero-inner">
-          <div class="hero-kicker">The celebration of</div>
-          <div class="hero-photo reveal">
-            <div class="hero-photo-inner">
-              Foto Anak<small>akan ditambahkan</small>
-            </div>
-          </div>
-          <h1 class="gold-shimmer">Nama Anak</h1>
-          <p class="hero-sub">
-            Putra dari Bapak Ridwan Noptarian S.Pd & Ibu titik titik
-          </p>
-          <div class="date-line">MINGGU • 27 SEPTEMBER 2026 • 11.00 WIB</div>
-        </div>
-      </section>
 
-      <section class="section">
-        <div class="wrap center">
-          <div class="eyebrow">Assalamu'alaikum Warahmatullahi Wabarakatuh</div>
-          <h2 class="title">A moment to remember</h2>
-          <div class="ornament">
-            <i></i>
-            <b>
-              <svg
-                width="34"
-                height="18"
-                viewBox="0 0 34 18"
-                aria-hidden="true"
-              >
-                <path
-                  d="M17 1L21 5L17 9L13 5Z M4 9L8 13L4 17L0 13Z M30 9L34 13L30 17L26 13Z"
-                  fill="none"
-                  stroke="currentColor"
-                />
-              </svg>
-            </b>
-            <i></i>
-          </div>
-          <p class="lead">
-            Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud mengundang
-            Bapak/Ibu/Saudara untuk hadir dan memberikan doa restu pada acara
-            khitanan putra kami.
-          </p>
-          <div class="story">
-            <div class="story-card reveal">
-              <h3>Anak pak ridwan</h3>
-              <p>
-                Putra dari pasangan<br /><b>Bapak Ridwan Noptarian S.Pd</b> &
-                <b>Ibu Istri pak ridwan</b>
-              </p>
-            </div>
-            <div class="story-card reveal">
-              <h3>Insya Allah</h3>
-              <p>
-                Semoga langkah kecil ini menjadi awal perjalanan yang penuh
-                keberkahan, kesehatan, dan kebaikan.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="section dark">
-        <div class="wrap center">
-          <div class="eyebrow">Save the date</div>
-          <h2 class="title">Waktu & Acara</h2>
-          <div class="detail-grid reveal">
-            <div class="detail">
-              <div class="icon">◷</div>
-              <h3>Hari</h3>
-              <p>MINGGU<br />27 September 2026</p>
-            </div>
-            <div class="detail">
-              <div class="icon">◌</div>
-              <h3>Waktu</h3>
-              <p>11.00 WIB<br />— selesai</p>
-            </div>
-            <div class="detail">
-              <div class="icon">⌂</div>
-              <h3>Tempat</h3>
-              <p>nama temoat<br />Jl. </p>
-            </div>
-            <div class="detail">
-              <div class="icon">✦</div>
-              <h3>Dress code</h3>
-              <p>Muslim / formal<br />opsional</p>
-            </div>
-          </div>
-          <div class="countdown reveal">
-            <div><strong id="dd">00</strong><span>Hari</span></div>
-            <div><strong id="hh">00</strong><span>Jam</span></div>
-            <div><strong id="mm">00</strong><span>Menit</span></div>
-            <div><strong id="ss">00</strong><span>Detik</span></div>
-          </div>
-        </div>
-      </section>
+        <!-- HERO -->
 
-      <section class="section">
-        <div class="wrap center">
-          <div class="eyebrow">Find us</div>
-          <h2 class="title">Lokasi Acara</h2>
-          <div class="map reveal">
-            <h3>Lokasi</h3>
-            <p>Jl. ....., Bandung<br />Jawa Barat, Indonesia</p>
-            <a
-              class="btn"
-              href="https://maps.google.com/?q=Jl.%20Melati%20No.%2012%20Bandung"
-              target="_blank"
-              >Buka Google Maps</a
-            >
-          </div>
-        </div>
-      </section>
+        <section class="hero">
 
-      <section class="section dark">
-        <div class="wrap center">
-          <div class="eyebrow">A little gift</div>
-          <h2 class="title">Amplop Digital</h2>
-          <p class="lead">
-            Doa dan kehadiran Anda adalah hadiah terindah. Jika berkenan, tanda
-            kasih dapat disampaikan melalui rekening berikut.
-          </p>
-          <div class="envelope-shell reveal">
-            <div class="envelope">
-              <svg
-                class="envelope-spark"
-                width="100%"
-                height="70"
-                viewBox="0 0 500 70"
-                aria-hidden="true"
-                style="
-                  display: block;
-                  margin: -18px auto 10px;
-                  overflow: visible;
-                "
-              >
-                <path
-                  d="M30 35 Q125 5 250 35 T470 35"
-                  fill="none"
-                  stroke="var(--gold)"
-                  stroke-width="1"
-                  stroke-dasharray="2 10"
-                  opacity=".5"
+
+            <div class="hero-orbit"></div>
+
+
+            <div class="hero-inner">
+
+
+                <div class="hero-kicker">
+
+                    The celebration of
+
+                </div>
+
+
+                <div class="hero-photo reveal">
+
+                    <img
+                        src="{{ asset('foto/latar.jpeg') }}"
+                        alt="Foto Abilhaq"
+                    >
+
+                </div>
+
+
+                <h1 class="gold-shimmer">
+
+                    ABILHAQ DANIYAL EL FATIH
+
+                </h1>
+
+
+                <p class="hero-sub">
+
+                    Putra dari
+                    Bapak Ridwan Noptarian S.Pd
+                    &
+                    Ibu Inda Nurfitri
+
+                </p>
+
+
+                <div class="date-line">
+
+                    MINGGU • 27 SEPTEMBER 2026 • 08.00 WIB
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             STORY
+        ================================================= -->
+
+        <section class="section">
+
+            <div class="wrap center">
+
+
+                <div class="eyebrow">
+
+                    Assalamu'alaikum Warahmatullahi Wabarakatuh
+
+                </div>
+
+
+                <h2 class="title">
+
+                    Saat-saat Yang Patut Dikenang
+
+                </h2>
+
+
+                <div class="ornament">
+
+                    <i></i>
+
+                    <b>✦</b>
+
+                    <i></i>
+
+                </div>
+
+
+                <p class="lead">
+
+                    Dengan memohon rahmat dan ridho Allah SWT,
+                    kami bermaksud mengundang Bapak/Ibu/Saudara
+                    untuk hadir dan memberikan doa restu pada
+                    acara khitanan putra kami.
+
+                </p>
+
+
+                <div class="story">
+
+
+                    <div class="story-card reveal">
+
+                        <h3>
+                            ABILHAQ DANIYAL EL FATIH
+                        </h3>
+
+                        <p>
+
+                            Putra dari pasangan<br>
+
+                            <b>
+                                Bapak Ridwan Noptarian S.Pd
+                            </b>
+
+                            &
+
+                            <b>
+                                Ibu Inda Nurfitri
+                            </b>
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="story-card reveal">
+
+                        <h3>
+                            Insya Allah
+                        </h3>
+
+                        <p>
+
+                            Semoga langkah kecil ini menjadi
+                            awal perjalanan yang penuh
+                            keberkahan, kesehatan, dan kebaikan.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EVENT
+        ================================================= -->
+
+        <section class="section dark">
+
+            <div class="wrap center">
+
+
+                <div class="eyebrow">
+                    Save the date
+                </div>
+
+
+                <h2 class="title">
+                    Waktu & Acara
+                </h2>
+
+
+                <div class="detail-grid reveal">
+
+
+                    <div class="detail">
+
+                        <div class="icon">
+                            ◷
+                        </div>
+
+                        <h3>
+                            Hari
+                        </h3>
+
+                        <p>
+                            MINGGU<br>
+                            27 September 2026
+                        </p>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="icon">
+                            ◌
+                        </div>
+
+                        <h3>
+                            Waktu
+                        </h3>
+
+                        <p>
+                            08.00 WIB<br>
+                            — selesai
+                        </p>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="icon">
+                            ⌂
+                        </div>
+
+                        <h3>
+                            Tempat
+                        </h3>
+
+                        <p>
+                            Rumah<br>
+                            Jl. Ciayunan Kp. Kebon Suuk Rt.003 Rw.006
+                        </p>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="icon">
+                            ✦
+                        </div>
+
+                        <h3>
+                            Acara
+                        </h3>
+
+                        <p>
+                            Bajidor / Lengser<br>
+                            Sisingan / Doorprize
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="countdown reveal">
+
+                    <div>
+                        <strong id="dd">00</strong>
+                        <span>Hari</span>
+                    </div>
+
+                    <div>
+                        <strong id="hh">00</strong>
+                        <span>Jam</span>
+                    </div>
+
+                    <div>
+                        <strong id="mm">00</strong>
+                        <span>Menit</span>
+                    </div>
+
+                    <div>
+                        <strong id="ss">00</strong>
+                        <span>Detik</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MAP
+        ================================================= -->
+
+        <section class="section">
+
+            <div class="wrap center">
+
+
+                <div class="eyebrow">
+                    Temukan Kami
+                </div>
+
+
+                <h2 class="title">
+                    Lokasi Acara
+                </h2>
+
+
+                <div class="map reveal">
+
+                    <h3>
+                        Lokasi
+                    </h3>
+
+
+                    <p>
+
+                        Jl. Ciayunan Kp. Kebon Suuk
+                        Rt.003 Rw.006, Bandung<br>
+
+                        Jawa Barat, Indonesia
+
+                    </p>
+
+
+                    <a
+                        class="btn"
+                        href="https://maps.google.com/?q=Jl.%20Ciayunan%20Kp.%20Kebon%20Suuk%20Bandung"
+                        target="_blank"
+                    >
+
+                        Buka Google Maps
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             AMPLOP DIGITAL
+        ================================================= -->
+
+        <section class="section dark">
+
+            <div class="wrap center">
+
+
+                <div class="eyebrow">
+                    Hadiah Kecil
+                </div>
+
+
+                <h2 class="title">
+                    Amplop Digital
+                </h2>
+
+
+                <p class="lead">
+
+                    Doa dan kehadiran Anda adalah hadiah terindah.
+                    Jika berkenan, tanda kasih dapat disampaikan
+                    melalui rekening berikut.
+
+                </p>
+
+
+                <div class="envelope-shell reveal">
+
+                    <div class="envelope">
+
+
+                        <div class="envelope-icon">
+                            ✦
+                        </div>
+
+
+                        <div class="account">
+
+                            <small>
+                                SEA BANK • Rekening
+                            </small>
+
+                            <strong>
+                                901925376798
+                            </strong>
+
+                            <span>
+                                a.n. Ridwan Noptarian
+                            </span>
+
+
+                            <button
+                                class="copy"
+                                type="button"
+                                data-copy="901925376798"
+                            >
+
+                                Salin nomor rekening
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="account">
+
+                            <small>
+                                DANA • E-Wallet
+                            </small>
+
+                            <strong>
+                                089630854147
+                            </strong>
+
+                            <span>
+                                a.n. Ridwan Noptarian
+                            </span>
+
+
+                            <button
+                                class="copy"
+                                type="button"
+                                data-copy="089630854147"
+                            >
+
+                                Salin nomor DANA
+
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             UCAPAN
+        ================================================= -->
+
+        <section class="section">
+
+            <div class="wrap center">
+
+
+                <div class="eyebrow">
+
+                    Doa Yang Sangat Berarti
+
+                </div>
+
+
+                <h2 class="title">
+
+                    Ucapan & Doa
+
+                </h2>
+
+
+                <p class="lead">
+
+                    Tuliskan doa dan ucapan terbaik
+                    untuk ABILHAQ DANIYAL EL FATIH.
+
+                </p>
+
+
+                <!-- FORM UCAPAN -->
+
+                <div class="form reveal">
+
+
+                    <input
+                        type="text"
+                        id="wishName"
+                        maxlength="100"
+                        placeholder="Nama Anda"
+                        autocomplete="name"
+                    >
+
+
+                    <textarea
+                        id="wishText"
+                        maxlength="1000"
+                        placeholder="Tulis ucapan & doa..."
+                    ></textarea>
+
+
+                    <button
+                        class="btn gold"
+                        id="wishBtn"
+                        type="button"
+                    >
+
+                        Kirim Ucapan
+
+                    </button>
+
+                </div>
+
+
+                <!-- DAFTAR UCAPAN -->
+
+                <div
+                    class="messages"
+                    id="messages"
                 >
-                  <animate
-                    attributeName="stroke-dashoffset"
-                    from="0"
-                    to="-60"
-                    dur="4s"
-                    repeatCount="indefinite"
-                  />
-                </path>
-                <circle cx="250" cy="35" r="3" fill="var(--gold2)">
-                  <animate
-                    attributeName="r"
-                    values="2;5;2"
-                    dur="2.5s"
-                    repeatCount="indefinite"
-                  />
-                  <animate
-                    attributeName="opacity"
-                    values=".3;1;.3"
-                    dur="2.5s"
-                    repeatCount="indefinite"
-                  />
-                </circle>
-              </svg>
-              <div class="envelope-icon">✦</div>
-              <div class="account">
-                <small>BCA • Rekening</small
-                ><strong id="bankNumber">0000000</strong
-                ><span>a.n. Ridwan Noptarian </span
-                ><button class="copy" data-copy="1234567890">
-                  Salin nomor rekening
-                </button>
-              </div>
-              <div class="account">
-                <small>DANA • E-Wallet</small
-                ><strong id="walletNumber">081234567890</strong
-                ><span>a.n. Ridwan Noptarian </span
-                ><button class="copy" data-copy="081234567890">
-                  Salin nomor DANA
-                </button>
-              </div>
+
+                    <div class="message-empty">
+
+                        Memuat ucapan...
+
+                    </div>
+
+                </div>
+
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="section">
-        <div class="wrap center">
-          <div class="eyebrow">Your prayers mean a lot</div>
-          <h2 class="title">Ucapan & Doa</h2>
-          <p class="lead">Tuliskan doa dan ucapan terbaik untuk nama anak pak ridwan.</p>
-          <div class="form reveal">
-            <input id="wishName" placeholder="Nama Anda" />
-            <textarea
-              id="wishText"
-              placeholder="Tulis ucapan & doa..."
-            ></textarea>
-            <button class="btn gold" id="wishBtn">Kirim Ucapan</button>
-          </div>
-          <div class="messages" id="messages"></div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section dark">
-        <div class="wrap center">
-          <div class="eyebrow">Kindly confirm</div>
-          <h2 class="title">Kehadiran Anda</h2>
-          <p class="lead">
-            Mohon konfirmasi kehadiran agar kami dapat mempersiapkan acara
-            dengan sebaik-baiknya.
-          </p>
-          <a id="waBtn" class="btn gold" href="#" target="_blank"
-            >Konfirmasi via WhatsApp</a
-          >
-        </div>
-      </section>
+
+        <!-- =================================================
+             KONFIRMASI WHATSAPP
+        ================================================= -->
+
+        <section class="section dark">
+
+            <div class="wrap center">
+
+
+                <div class="eyebrow">
+
+                    Mohon Konfirmasinya
+
+                </div>
+
+
+                <h2 class="title">
+
+                    Kehadiran Anda
+
+                </h2>
+
+
+                <p class="lead">
+
+                    Mohon konfirmasi kehadiran agar kami
+                    dapat mempersiapkan acara dengan
+                    sebaik-baiknya.
+
+                </p>
+
+
+                <a
+                    id="waBtn"
+                    class="btn gold"
+                    href="#"
+                    target="_blank"
+                >
+
+                    Konfirmasi via WhatsApp
+
+                </a>
+
+            </div>
+
+        </section>
+
+
     </main>
 
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
     <footer>
-      <div class="footer-mark">☾</div>
-      <h2>nama anak</h2>
-      <p>Terima kasih atas doa dan kehadiran Anda.</p>
-      <p class="gold">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+
+
+        <div class="footer-mark">
+            ☾
+        </div>
+
+
+        <h2>
+            ABILHAQ DANIYAL EL FATIH
+        </h2>
+
+
+        <p>
+            Terima kasih atas doa dan kehadiran Anda.
+        </p>
+
+
+        <p class="gold">
+
+            Wassalamu'alaikum Warahmatullahi Wabarakatuh
+
+        </p>
+
     </footer>
 
-    <!-- musik masih kosong -->
-    <button class="music" id="musicBtn" aria-label="Musik">♫</button>
-    <audio id="music" loop preload="none">
-      <source src="musik.mp3" type="audio/mpeg" />
+
+    <!-- =====================================================
+         MUSIC
+    ===================================================== -->
+
+    <button
+        class="music"
+        id="musicBtn"
+        type="button"
+        aria-label="Musik"
+    >
+
+        ♫
+
+    </button>
+
+
+    <audio
+        id="music"
+        loop
+        preload="none"
+    >
+
+        <source
+            src="{{ asset('musik/musicundangan.mp3') }}"
+            type="audio/mpeg"
+        >
+
     </audio>
 
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
+
     <script>
-      const CONFIG = {
-        namaAnak: "nama anak",
-        ayah: "Bapak Ridwan Noptarian S.Pd",
-        ibu: "nama istri",
-        tanggalAcara: "2026-09-27T11:00:00+07:00",
-        whatsapp: "6281234567890",
-      };
-      const params = new URLSearchParams(location.search);
-      const guest = params.get("to") || "Tamu Undangan";
-      document.getElementById("guestCover").textContent = decodeURIComponent(
-        guest.replace(/\+/g, " "),
-      );
-      const wa = document.getElementById("waBtn");
-      wa.href =
-        "https://wa.me/" +
-        CONFIG.whatsapp +
-        "?text=" +
-        encodeURIComponent(
-          "Assalamu'alaikum, saya " +
-            guest +
-            " insyaAllah akan hadir di acara khitanan " +
-            CONFIG.namaAnak +
-            ". Terima kasih.",
-        );
-      document.getElementById("openBtn").onclick = () => {
-        document.getElementById("cover").classList.add("hide");
-        document.body.classList.remove("locked");
-        const m = document.getElementById("music");
-        m.play().catch(() => {});
-      };
-      function tick() {
-        const d = Math.max(0, new Date(CONFIG.tanggalAcara) - new Date());
-        document.getElementById("dd").textContent = String(
-          Math.floor(d / 86400000),
-        ).padStart(2, "0");
-        document.getElementById("hh").textContent = String(
-          Math.floor(d / 3600000) % 24,
-        ).padStart(2, "0");
-        document.getElementById("mm").textContent = String(
-          Math.floor(d / 60000) % 60,
-        ).padStart(2, "0");
-        document.getElementById("ss").textContent = String(
-          Math.floor(d / 1000) % 60,
-        ).padStart(2, "0");
-      }
-      tick();
-      setInterval(tick, 1000);
-      const music = document.getElementById("music"),
-        musicBtn = document.getElementById("musicBtn");
-      musicBtn.onclick = () => {
-        if (music.paused) {
-          music.play().catch(() => {});
-          musicBtn.textContent = "❚❚";
-        } else {
-          music.pause();
-          musicBtn.textContent = "♫";
+
+
+        /* =================================================
+           CONFIG
+        ================================================= */
+
+        const CONFIG = {
+
+            namaAnak:
+                "ABILHAQ DANIYAL EL FATIH",
+
+            ayah:
+                "Bapak Ridwan Noptarian S.Pd",
+
+            ibu:
+                "Ibu Inda Nurfitri",
+
+            tanggalAcara:
+                "2026-09-27T11:00:00+07:00",
+
+            whatsapp:
+                "62819630854147"
+
+        };
+
+
+        /* =================================================
+           NAMA TAMU DARI URL
+           
+           Contoh:
+           ?to=Ucup
+           ================================================= */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        /*
+         * Ambil parameter ?to=
+         */
+
+        let guest =
+            params.get("to");
+
+
+        /*
+         * Jika tidak ada nama,
+         * gunakan Tamu Undangan
+         */
+
+        if (!guest || !guest.trim()) {
+
+            guest =
+                "Tamu Undangan";
+
         }
-      };
-      document.querySelectorAll(".copy").forEach(
-        (b) =>
-          (b.onclick = () =>
-            navigator.clipboard?.writeText(b.dataset.copy).then(() => {
-              const t = b.textContent;
-              b.textContent = "Tersalin ✓";
-              setTimeout(() => (b.textContent = t), 1400);
-            })),
-      );
-      const observer = new IntersectionObserver(
-        (es) =>
-          es.forEach((e) => {
-            if (e.isIntersecting) e.target.classList.add("visible");
-          }),
-        { threshold: 0.14 },
-      );
-      document.querySelectorAll(".reveal").forEach((e) => observer.observe(e));
-      const list = document.getElementById("messages");
-      function render() {
-        list.innerHTML = JSON.parse(localStorage.getItem("wishes") || "[]")
-          .slice(-12)
-          .reverse()
-          .map(
-            (x) =>
-              `<div class="message"><strong>${escapeHtml(x.n)}</strong><p>${escapeHtml(x.t)}</p></div>`,
-          )
-          .join("");
-      }
-      function escapeHtml(s) {
-        return String(s).replace(
-          /[&<>"']/g,
-          (c) =>
-            ({
-              "&": "&amp;",
-              "<": "&lt;",
-              ">": "&gt;",
-              '"': "&quot;",
-              "'": "&#039;",
-            })[c],
+
+
+        /*
+         * Decode nama tamu
+         */
+
+        guest =
+            guest.trim();
+
+
+        /*
+         * Tampilkan nama tamu
+         * di cover
+         */
+
+        document
+            .getElementById("guestCover")
+            .textContent = guest;
+
+
+        /* =================================================
+           WHATSAPP KONFIRMASI
+        ================================================= */
+
+        const wa =
+            document.getElementById("waBtn");
+
+
+        wa.href =
+            "https://wa.me/" +
+            CONFIG.whatsapp +
+            "?text=" +
+            encodeURIComponent(
+
+                "Assalamu'alaikum, saya " +
+                guest +
+                " insyaAllah akan hadir di acara khitanan " +
+                CONFIG.namaAnak +
+                ". Terima kasih."
+
+            );
+
+
+        /* =================================================
+           BUKA UNDANGAN
+        ================================================= */
+
+        document
+            .getElementById("openBtn")
+            .onclick = () => {
+
+
+                document
+                    .getElementById("cover")
+                    .classList
+                    .add("hide");
+
+
+                document
+                    .body
+                    .classList
+                    .remove("locked");
+
+
+                const music =
+                    document
+                    .getElementById("music");
+
+
+                music
+                    .play()
+                    .then(() => {
+
+                        document
+                            .getElementById("musicBtn")
+                            .textContent = "❚❚";
+
+                    })
+                    .catch(() => {});
+
+            };
+
+
+        /* =================================================
+           COUNTDOWN
+        ================================================= */
+
+        function tick() {
+
+
+            const distance = Math.max(
+
+                0,
+
+                new Date(
+                    CONFIG.tanggalAcara
+                ) -
+
+                new Date()
+
+            );
+
+
+            document
+                .getElementById("dd")
+                .textContent = String(
+
+                    Math.floor(
+                        distance / 86400000
+                    )
+
+                ).padStart(2, "0");
+
+
+            document
+                .getElementById("hh")
+                .textContent = String(
+
+                    Math.floor(
+                        distance / 3600000
+                    ) % 24
+
+                ).padStart(2, "0");
+
+
+            document
+                .getElementById("mm")
+                .textContent = String(
+
+                    Math.floor(
+                        distance / 60000
+                    ) % 60
+
+                ).padStart(2, "0");
+
+
+            document
+                .getElementById("ss")
+                .textContent = String(
+
+                    Math.floor(
+                        distance / 1000
+                    ) % 60
+
+                ).padStart(2, "0");
+
+        }
+
+
+        tick();
+
+
+        setInterval(
+            tick,
+            1000
         );
-      }
-      document.getElementById("wishBtn").onclick = () => {
-        const n = document.getElementById("wishName").value.trim(),
-          t = document.getElementById("wishText").value.trim();
-        if (!n || !t) return alert("Mohon isi nama dan ucapan.");
-        const a = JSON.parse(localStorage.getItem("wishes") || "[]");
-        a.push({ n, t });
-        localStorage.setItem("wishes", JSON.stringify(a));
-        document.getElementById("wishName").value = "";
-        document.getElementById("wishText").value = "";
-        render();
-      };
-      render();
+
+
+        /* =================================================
+           MUSIK
+        ================================================= */
+
+        const music =
+            document.getElementById("music");
+
+
+        const musicBtn =
+            document.getElementById("musicBtn");
+
+
+        musicBtn.onclick = () => {
+
+
+            if (music.paused) {
+
+
+                music
+                    .play()
+                    .then(() => {
+
+                        musicBtn.textContent =
+                            "❚❚";
+
+                    })
+                    .catch(() => {});
+
+
+            } else {
+
+
+                music.pause();
+
+
+                musicBtn.textContent =
+                    "♫";
+
+            }
+
+        };
+
+
+        /* =================================================
+           COPY REKENING / DANA
+        ================================================= */
+
+        document
+            .querySelectorAll(".copy")
+            .forEach((button) => {
+
+
+                button.onclick = async () => {
+
+
+                    try {
+
+
+                        await navigator
+                            .clipboard
+                            .writeText(
+                                button.dataset.copy
+                            );
+
+
+                        const original =
+                            button.textContent;
+
+
+                        button.textContent =
+                            "Tersalin ✓";
+
+
+                        setTimeout(() => {
+
+                            button.textContent =
+                                original;
+
+                        }, 1400);
+
+
+                    } catch (error) {
+
+                        alert(
+                            "Gagal menyalin nomor."
+                        );
+
+                    }
+
+                };
+
+            });
+
+
+        /* =================================================
+           ANIMASI REVEAL
+        ================================================= */
+
+        const observer =
+            new IntersectionObserver(
+
+                (entries) => {
+
+
+                    entries.forEach(
+                        (entry) => {
+
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+
+                                entry.target
+                                    .classList
+                                    .add("visible");
+
+                            }
+
+                        }
+                    );
+
+                },
+
+                {
+                    threshold:
+                        0.14
+                }
+
+            );
+
+
+        document
+            .querySelectorAll(".reveal")
+            .forEach(
+                (element) => {
+
+                    observer.observe(
+                        element
+                    );
+
+                }
+            );
+
+
+        /* =================================================
+           UCAPAN & DOA
+           
+           Laravel API
+        ================================================= */
+
+
+        const list =
+            document.getElementById(
+                "messages"
+            );
+
+
+        /*
+         * Route Laravel
+         */
+
+        const wishIndexUrl =
+            @json(route('wishes.index'));
+
+
+        const wishStoreUrl =
+            @json(route('wishes.store'));
+
+
+        /*
+         * CSRF Laravel
+         */
+
+        const csrfToken =
+            @json(csrf_token());
+
+
+        /* =================================================
+           SECURITY
+        ================================================= */
+
+        function escapeHtml(text) {
+
+
+            return String(text)
+                .replace(
+
+                    /[&<>"']/g,
+
+                    (character) => {
+
+
+                        return {
+
+                            "&":
+                                "&amp;",
+
+                            "<":
+                                "&lt;",
+
+                            ">":
+                                "&gt;",
+
+                            '"':
+                                "&quot;",
+
+                            "'":
+                                "&#039;"
+
+                        }[character];
+
+                    }
+
+                );
+
+        }
+
+
+        /* =================================================
+           TAMPILKAN UCAPAN
+        ================================================= */
+
+        async function renderWishes() {
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        wishIndexUrl,
+                        {
+                            method:
+                                "GET",
+
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            }
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Gagal mengambil ucapan."
+                    );
+
+                }
+
+
+                const wishes =
+                    await response.json();
+
+
+                /*
+                 * Belum ada ucapan
+                 */
+
+                if (
+                    !Array.isArray(wishes) ||
+                    wishes.length === 0
+                ) {
+
+
+                    list.innerHTML = `
+
+                        <div class="message-empty">
+
+                            Belum ada ucapan.
+                            Jadilah yang pertama
+                            memberikan doa ❤️
+
+                        </div>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+                /*
+                 * Tampilkan ucapan
+                 */
+
+                list.innerHTML = wishes
+                    .map(
+                        (wish) => `
+
+                            <div class="message">
+
+                                <strong>
+
+                                    ${escapeHtml(
+                                        wish.name
+                                    )}
+
+                                </strong>
+
+                                <p>
+
+                                    ${escapeHtml(
+                                        wish.message
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `
+                    )
+                    .join("");
+
+
+            } catch (error) {
+
+
+                console.error(error);
+
+
+                list.innerHTML = `
+
+                    <div class="message-empty">
+
+                        Ucapan belum dapat dimuat.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =================================================
+           KIRIM UCAPAN
+        ================================================= */
+
+        document
+            .getElementById("wishBtn")
+            .onclick = async () => {
+
+
+                const button =
+                    document.getElementById(
+                        "wishBtn"
+                    );
+
+
+                const nameInput =
+                    document.getElementById(
+                        "wishName"
+                    );
+
+
+                const messageInput =
+                    document.getElementById(
+                        "wishText"
+                    );
+
+
+                const name =
+                    nameInput.value.trim();
+
+
+                const message =
+                    messageInput.value.trim();
+
+
+                /*
+                 * Validasi
+                 */
+
+                if (!name) {
+
+                    alert(
+                        "Mohon isi nama Anda."
+                    );
+
+                    nameInput.focus();
+
+                    return;
+
+                }
+
+
+                if (!message) {
+
+                    alert(
+                        "Mohon tuliskan ucapan."
+                    );
+
+                    messageInput.focus();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Loading
+                 */
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "Mengirim...";
+
+
+                try {
+
+
+                    const response =
+                        await fetch(
+                            wishStoreUrl,
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "Accept":
+                                        "application/json",
+
+                                    "X-CSRF-TOKEN":
+                                        csrfToken,
+
+                                    "X-Requested-With":
+                                        "XMLHttpRequest"
+
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        name:
+                                            name,
+
+                                        message:
+                                            message
+
+                                    })
+
+                            }
+                        );
+
+
+                    /*
+                     * Ambil response
+                     */
+
+                    const data =
+                        await response.json();
+
+
+                    /*
+                     * Error Laravel
+                     */
+
+                    if (!response.ok) {
+
+
+                        if (
+                            response.status === 422 &&
+                            data.errors
+                        ) {
+
+
+                            const errors =
+                                Object
+                                    .values(
+                                        data.errors
+                                    )
+                                    .flat()
+                                    .join("\n");
+
+
+                            throw new Error(
+                                errors
+                            );
+
+                        }
+
+
+                        throw new Error(
+
+                            data.message ||
+                            "Ucapan gagal dikirim."
+
+                        );
+
+                    }
+
+
+                    /*
+                     * Bersihkan form
+                     */
+
+                    nameInput.value =
+                        "";
+
+                    messageInput.value =
+                        "";
+
+
+                    /*
+                     * Reload ucapan
+                     */
+
+                    await renderWishes();
+
+
+                    /*
+                     * Berhasil
+                     */
+
+                    alert(
+                        "Ucapan berhasil dikirim. Terima kasih ❤️"
+                    );
+
+
+                } catch (error) {
+
+
+                    console.error(
+                        error
+                    );
+
+
+                    alert(
+
+                        error.message ||
+                        "Terjadi kesalahan saat mengirim ucapan."
+
+                    );
+
+
+                } finally {
+
+
+                    button.disabled =
+                        false;
+
+
+                    button.textContent =
+                        "Kirim Ucapan";
+
+                }
+
+            };
+
+
+        /* =================================================
+           LOAD UCAPAN SAAT HALAMAN DIBUKA
+        ================================================= */
+
+        renderWishes();
+
+
     </script>
-  </body>
+
+
+</body>
+
 </html>
