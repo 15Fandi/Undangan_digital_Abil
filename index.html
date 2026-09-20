@@ -2032,9 +2032,9 @@
                 <div class="hero-photo reveal">
 
                     <img
-                        src="{{ asset('foto/latar.jpeg') }}"
-                        alt="Foto Abilhaq"
-                    >
+    src="./foto/latar.jpeg"
+    alt="Foto Abilhaq"
+>
 
                 </div>
 
@@ -2635,9 +2635,9 @@
     >
 
         <source
-            src="{{ asset('musik/musicundangan.mp3') }}"
-            type="audio/mpeg"
-        >
+    src="./musik/musicundangan.mp3"
+    type="audio/mpeg"
+>
 
     </audio>
 
@@ -2648,283 +2648,386 @@
 
     <script>
 
+    /* =====================================================
+       KONFIGURASI UNDANGAN
+    ===================================================== */
 
-        /* =================================================
-           CONFIG
-        ================================================= */
+    const CONFIG = {
 
-        const CONFIG = {
+        namaAnak: "ABILHAQ DANIYAL EL FATIH",
 
-            namaAnak:
-                "ABILHAQ DANIYAL EL FATIH",
+        ayah: "Bapak Ridwan Noptarian S.Pd",
 
-            ayah:
-                "Bapak Ridwan Noptarian S.Pd",
+        ibu: "Ibu Inda Nurfitri",
 
-            ibu:
-                "Ibu Inda Nurfitri",
+        tanggalAcara:
+            "2026-09-27T08:00:00+07:00",
 
-            tanggalAcara:
-                "2026-09-27T11:00:00+07:00",
+        whatsapp:
+            "62819630854147"
 
-            whatsapp:
-                "62819630854147"
-
-        };
+    };
 
 
-        /* =================================================
-           NAMA TAMU DARI URL
-           
-           Contoh:
-           ?to=Ucup
-           ================================================= */
+    /* =====================================================
+       NAMA TAMU DARI URL
+       
+       Contoh:
+       https://15fandi.github.io/Undangan_digital_Abil/?to=Ucup
+    ===================================================== */
 
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        /*
-         * Ambil parameter ?to=
-         */
-
-        let guest =
-            params.get("to");
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
 
-        /*
-         * Jika tidak ada nama,
-         * gunakan Tamu Undangan
-         */
-
-        if (!guest || !guest.trim()) {
-
-            guest =
-                "Tamu Undangan";
-
-        }
+    let guest =
+        params.get("to");
 
 
-        /*
-         * Decode nama tamu
-         */
+    /*
+     * Kalau ?to= tidak ada
+     */
+
+    if (!guest || !guest.trim()) {
 
         guest =
-            guest.trim();
+            "Tamu Undangan";
+
+    }
 
 
-        /*
-         * Tampilkan nama tamu
-         * di cover
-         */
+    /*
+     * Bersihkan spasi
+     */
 
-        document
-            .getElementById("guestCover")
-            .textContent = guest;
+    guest =
+        guest.trim();
 
 
-        /* =================================================
-           WHATSAPP KONFIRMASI
-        ================================================= */
+    /*
+     * Tampilkan nama tamu
+     */
 
-        const wa =
-            document.getElementById("waBtn");
+    const guestCover =
+        document.getElementById(
+            "guestCover"
+        );
 
 
-        wa.href =
+    if (guestCover) {
+
+        guestCover.textContent =
+            guest;
+
+    }
+
+
+    /* =====================================================
+       WHATSAPP
+    ===================================================== */
+
+    const waBtn =
+        document.getElementById(
+            "waBtn"
+        );
+
+
+    if (waBtn) {
+
+        const message =
+
+            "Assalamu'alaikum, saya " +
+            guest +
+            " insyaAllah akan hadir " +
+            "di acara khitanan " +
+            CONFIG.namaAnak +
+            ". Terima kasih.";
+
+        waBtn.href =
             "https://wa.me/" +
             CONFIG.whatsapp +
             "?text=" +
             encodeURIComponent(
-
-                "Assalamu'alaikum, saya " +
-                guest +
-                " insyaAllah akan hadir di acara khitanan " +
-                CONFIG.namaAnak +
-                ". Terima kasih."
-
+                message
             );
 
-
-        /* =================================================
-           BUKA UNDANGAN
-        ================================================= */
-
-        document
-            .getElementById("openBtn")
-            .onclick = () => {
+    }
 
 
-                document
-                    .getElementById("cover")
-                    .classList
-                    .add("hide");
+    /* =====================================================
+       BUKA UNDANGAN
+    ===================================================== */
+
+    const openBtn =
+        document.getElementById(
+            "openBtn"
+        );
 
 
-                document
-                    .body
-                    .classList
-                    .remove("locked");
+    const cover =
+        document.getElementById(
+            "cover"
+        );
 
 
-                const music =
-                    document
-                    .getElementById("music");
+    const music =
+        document.getElementById(
+            "music"
+        );
 
 
-                music
-                    .play()
-                    .then(() => {
-
-                        document
-                            .getElementById("musicBtn")
-                            .textContent = "❚❚";
-
-                    })
-                    .catch(() => {});
-
-            };
+    const musicBtn =
+        document.getElementById(
+            "musicBtn"
+        );
 
 
-        /* =================================================
-           COUNTDOWN
-        ================================================= */
+    if (openBtn) {
 
-        function tick() {
+        openBtn.addEventListener(
+            "click",
+            function () {
+
+                /*
+                 * Hilangkan cover
+                 */
+
+                if (cover) {
+
+                    cover.classList.add(
+                        "hide"
+                    );
+
+                }
 
 
-            const distance = Math.max(
+                /*
+                 * Buka scroll halaman
+                 */
 
+                document.body.classList.remove(
+                    "locked"
+                );
+
+
+                /*
+                 * Jalankan musik
+                 */
+
+                if (music) {
+
+                    music.play()
+                        .then(function () {
+
+                            if (musicBtn) {
+
+                                musicBtn.textContent =
+                                    "❚❚";
+
+                            }
+
+                        })
+                        .catch(function (error) {
+
+                            console.log(
+                                "Musik belum dapat diputar:",
+                                error
+                            );
+
+                        });
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       COUNTDOWN
+    ===================================================== */
+
+    function tick() {
+
+        const target =
+            new Date(
+                CONFIG.tanggalAcara
+            ).getTime();
+
+
+        const now =
+            new Date().getTime();
+
+
+        const distance =
+            Math.max(
                 0,
-
-                new Date(
-                    CONFIG.tanggalAcara
-                ) -
-
-                new Date()
-
+                target - now
             );
 
 
-            document
-                .getElementById("dd")
-                .textContent = String(
-
-                    Math.floor(
-                        distance / 86400000
-                    )
-
-                ).padStart(2, "0");
+        const days =
+            Math.floor(
+                distance / 86400000
+            );
 
 
-            document
-                .getElementById("hh")
-                .textContent = String(
-
-                    Math.floor(
-                        distance / 3600000
-                    ) % 24
-
-                ).padStart(2, "0");
+        const hours =
+            Math.floor(
+                distance / 3600000
+            ) % 24;
 
 
-            document
-                .getElementById("mm")
-                .textContent = String(
-
-                    Math.floor(
-                        distance / 60000
-                    ) % 60
-
-                ).padStart(2, "0");
+        const minutes =
+            Math.floor(
+                distance / 60000
+            ) % 60;
 
 
-            document
-                .getElementById("ss")
-                .textContent = String(
+        const seconds =
+            Math.floor(
+                distance / 1000
+            ) % 60;
 
-                    Math.floor(
-                        distance / 1000
-                    ) % 60
 
-                ).padStart(2, "0");
+        const dd =
+            document.getElementById(
+                "dd"
+            );
+
+
+        const hh =
+            document.getElementById(
+                "hh"
+            );
+
+
+        const mm =
+            document.getElementById(
+                "mm"
+            );
+
+
+        const ss =
+            document.getElementById(
+                "ss"
+            );
+
+
+        if (dd) {
+
+            dd.textContent =
+                String(days)
+                .padStart(2, "0");
 
         }
 
 
-        tick();
+        if (hh) {
+
+            hh.textContent =
+                String(hours)
+                .padStart(2, "0");
+
+        }
 
 
-        setInterval(
-            tick,
-            1000
-        );
+        if (mm) {
+
+            mm.textContent =
+                String(minutes)
+                .padStart(2, "0");
+
+        }
 
 
-        /* =================================================
-           MUSIK
-        ================================================= */
+        if (ss) {
 
-        const music =
-            document.getElementById("music");
+            ss.textContent =
+                String(seconds)
+                .padStart(2, "0");
 
+        }
 
-        const musicBtn =
-            document.getElementById("musicBtn");
-
-
-        musicBtn.onclick = () => {
+    }
 
 
-            if (music.paused) {
+    tick();
 
 
-                music
-                    .play()
-                    .then(() => {
-
-                        musicBtn.textContent =
-                            "❚❚";
-
-                    })
-                    .catch(() => {});
+    setInterval(
+        tick,
+        1000
+    );
 
 
-            } else {
+    /* =====================================================
+       MUSIK
+    ===================================================== */
 
+    if (musicBtn && music) {
 
-                music.pause();
+        musicBtn.addEventListener(
+            "click",
+            function () {
 
+                if (music.paused) {
 
-                musicBtn.textContent =
-                    "♫";
+                    music.play()
+                        .then(function () {
+
+                            musicBtn.textContent =
+                                "❚❚";
+
+                        })
+                        .catch(function () {
+
+                            alert(
+                                "Musik belum dapat diputar."
+                            );
+
+                        });
+
+                } else {
+
+                    music.pause();
+
+                    musicBtn.textContent =
+                        "♫";
+
+                }
 
             }
+        );
 
-        };
-
-
-        /* =================================================
-           COPY REKENING / DANA
-        ================================================= */
-
-        document
-            .querySelectorAll(".copy")
-            .forEach((button) => {
+    }
 
 
-                button.onclick = async () => {
+    /* =====================================================
+       COPY REKENING / DANA
+    ===================================================== */
+
+    document
+        .querySelectorAll(".copy")
+        .forEach(function (button) {
+
+            button.addEventListener(
+                "click",
+                async function () {
+
+                    const number =
+                        button.dataset.copy;
 
 
                     try {
 
-
                         await navigator
                             .clipboard
                             .writeText(
-                                button.dataset.copy
+                                number
                             );
 
 
@@ -2936,12 +3039,15 @@
                             "Tersalin ✓";
 
 
-                        setTimeout(() => {
+                        setTimeout(
+                            function () {
 
-                            button.textContent =
-                                original;
+                                button.textContent =
+                                    original;
 
-                        }, 1400);
+                            },
+                            1400
+                        );
 
 
                     } catch (error) {
@@ -2952,209 +3058,248 @@
 
                     }
 
-                };
+                }
+            );
 
-            });
-
-
-        /* =================================================
-           ANIMASI REVEAL
-        ================================================= */
-
-        const observer =
-            new IntersectionObserver(
-
-                (entries) => {
+        });
 
 
-                    entries.forEach(
-                        (entry) => {
+    /* =====================================================
+       ANIMASI REVEAL
+    ===================================================== */
 
+    const observer =
+        new IntersectionObserver(
 
-                            if (
-                                entry.isIntersecting
-                            ) {
+            function (entries) {
 
+                entries.forEach(
+                    function (entry) {
 
-                                entry.target
-                                    .classList
-                                    .add("visible");
+                        if (
+                            entry.isIntersecting
+                        ) {
 
-                            }
+                            entry.target.classList.add(
+                                "visible"
+                            );
 
                         }
-                    );
-
-                },
-
-                {
-                    threshold:
-                        0.14
-                }
-
-            );
-
-
-        document
-            .querySelectorAll(".reveal")
-            .forEach(
-                (element) => {
-
-                    observer.observe(
-                        element
-                    );
-
-                }
-            );
-
-
-        /* =================================================
-           UCAPAN & DOA
-           
-           Laravel API
-        ================================================= */
-
-
-        const list =
-            document.getElementById(
-                "messages"
-            );
-
-
-        /*
-         * Route Laravel
-         */
-
-        const wishIndexUrl =
-            @json(route('wishes.index'));
-
-
-        const wishStoreUrl =
-            @json(route('wishes.store'));
-
-
-        /*
-         * CSRF Laravel
-         */
-
-        const csrfToken =
-            @json(csrf_token());
-
-
-        /* =================================================
-           SECURITY
-        ================================================= */
-
-        function escapeHtml(text) {
-
-
-            return String(text)
-                .replace(
-
-                    /[&<>"']/g,
-
-                    (character) => {
-
-
-                        return {
-
-                            "&":
-                                "&amp;",
-
-                            "<":
-                                "&lt;",
-
-                            ">":
-                                "&gt;",
-
-                            '"':
-                                "&quot;",
-
-                            "'":
-                                "&#039;"
-
-                        }[character];
 
                     }
-
                 );
+
+            },
+
+            {
+                threshold: 0.14
+            }
+
+        );
+
+
+    document
+        .querySelectorAll(".reveal")
+        .forEach(function (element) {
+
+            observer.observe(
+                element
+            );
+
+        });
+
+
+    /* =====================================================
+       UCAPAN & DOA
+       
+       Untuk GitHub Pages:
+       menggunakan localStorage.
+       
+       Catatan:
+       Ucapan tersimpan di browser yang digunakan.
+    ===================================================== */
+
+    const list =
+        document.getElementById(
+            "messages"
+        );
+
+
+    const wishName =
+        document.getElementById(
+            "wishName"
+        );
+
+
+    const wishText =
+        document.getElementById(
+            "wishText"
+        );
+
+
+    const wishBtn =
+        document.getElementById(
+            "wishBtn"
+        );
+
+
+    /*
+     * Database lokal browser
+     */
+
+    const STORAGE_KEY =
+        "ucapan_abilhaq";
+
+
+    /* =====================================================
+       SECURITY
+    ===================================================== */
+
+    function escapeHtml(text) {
+
+        return String(text)
+            .replace(
+                /[&<>"']/g,
+                function (character) {
+
+                    return {
+
+                        "&":
+                            "&amp;",
+
+                        "<":
+                            "&lt;",
+
+                        ">":
+                            "&gt;",
+
+                        '"':
+                            "&quot;",
+
+                        "'":
+                            "&#039;"
+
+                    }[character];
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       AMBIL UCAPAN
+    ===================================================== */
+
+    function getWishes() {
+
+        try {
+
+            const data =
+                localStorage.getItem(
+                    STORAGE_KEY
+                );
+
+
+            if (!data) {
+
+                return [];
+
+            }
+
+
+            const wishes =
+                JSON.parse(
+                    data
+                );
+
+
+            return Array.isArray(
+                wishes
+            )
+                ? wishes
+                : [];
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SIMPAN UCAPAN
+    ===================================================== */
+
+    function saveWishes(wishes) {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(
+                wishes
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       TAMPILKAN UCAPAN
+    ===================================================== */
+
+    function renderWishes() {
+
+        if (!list) {
+
+            return;
 
         }
 
 
-        /* =================================================
-           TAMPILKAN UCAPAN
-        ================================================= */
-
-        async function renderWishes() {
+        const wishes =
+            getWishes();
 
 
-            try {
+        /*
+         * Belum ada ucapan
+         */
+
+        if (
+            wishes.length === 0
+        ) {
+
+            list.innerHTML = `
+
+                <div class="message-empty">
+
+                    Belum ada ucapan.
+                    Jadilah yang pertama
+                    memberikan doa ❤️
+
+                </div>
+
+            `;
+
+            return;
+
+        }
 
 
-                const response =
-                    await fetch(
-                        wishIndexUrl,
-                        {
-                            method:
-                                "GET",
+        /*
+         * Tampilkan ucapan
+         */
 
-                            headers: {
-                                "Accept":
-                                    "application/json"
-                            }
-                        }
-                    );
+        list.innerHTML =
+            wishes
+                .map(
+                    function (wish) {
 
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Gagal mengambil ucapan."
-                    );
-
-                }
-
-
-                const wishes =
-                    await response.json();
-
-
-                /*
-                 * Belum ada ucapan
-                 */
-
-                if (
-                    !Array.isArray(wishes) ||
-                    wishes.length === 0
-                ) {
-
-
-                    list.innerHTML = `
-
-                        <div class="message-empty">
-
-                            Belum ada ucapan.
-                            Jadilah yang pertama
-                            memberikan doa ❤️
-
-                        </div>
-
-                    `;
-
-
-                    return;
-
-                }
-
-
-                /*
-                 * Tampilkan ucapan
-                 */
-
-                list.innerHTML = wishes
-                    .map(
-                        (wish) => `
+                        return `
 
                             <div class="message">
 
@@ -3176,69 +3321,35 @@
 
                             </div>
 
-                        `
-                    )
-                    .join("");
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
 
 
-            } catch (error) {
+    /* =====================================================
+       KIRIM UCAPAN
+    ===================================================== */
 
+    if (wishBtn) {
 
-                console.error(error);
-
-
-                list.innerHTML = `
-
-                    <div class="message-empty">
-
-                        Ucapan belum dapat dimuat.
-
-                    </div>
-
-                `;
-
-            }
-
-        }
-
-
-        /* =================================================
-           KIRIM UCAPAN
-        ================================================= */
-
-        document
-            .getElementById("wishBtn")
-            .onclick = async () => {
-
-
-                const button =
-                    document.getElementById(
-                        "wishBtn"
-                    );
-
-
-                const nameInput =
-                    document.getElementById(
-                        "wishName"
-                    );
-
-
-                const messageInput =
-                    document.getElementById(
-                        "wishText"
-                    );
-
+        wishBtn.addEventListener(
+            "click",
+            function () {
 
                 const name =
-                    nameInput.value.trim();
+                    wishName.value.trim();
 
 
                 const message =
-                    messageInput.value.trim();
+                    wishText.value.trim();
 
 
                 /*
-                 * Validasi
+                 * Validasi nama
                  */
 
                 if (!name) {
@@ -3247,20 +3358,7 @@
                         "Mohon isi nama Anda."
                     );
 
-                    nameInput.focus();
-
-                    return;
-
-                }
-
-
-                if (!message) {
-
-                    alert(
-                        "Mohon tuliskan ucapan."
-                    );
-
-                    messageInput.focus();
+                    wishName.focus();
 
                     return;
 
@@ -3268,171 +3366,98 @@
 
 
                 /*
-                 * Loading
+                 * Validasi ucapan
                  */
 
-                button.disabled =
-                    true;
-
-                button.textContent =
-                    "Mengirim...";
-
-
-                try {
-
-
-                    const response =
-                        await fetch(
-                            wishStoreUrl,
-                            {
-
-                                method:
-                                    "POST",
-
-                                headers: {
-
-                                    "Content-Type":
-                                        "application/json",
-
-                                    "Accept":
-                                        "application/json",
-
-                                    "X-CSRF-TOKEN":
-                                        csrfToken,
-
-                                    "X-Requested-With":
-                                        "XMLHttpRequest"
-
-                                },
-
-                                body:
-                                    JSON.stringify({
-
-                                        name:
-                                            name,
-
-                                        message:
-                                            message
-
-                                    })
-
-                            }
-                        );
-
-
-                    /*
-                     * Ambil response
-                     */
-
-                    const data =
-                        await response.json();
-
-
-                    /*
-                     * Error Laravel
-                     */
-
-                    if (!response.ok) {
-
-
-                        if (
-                            response.status === 422 &&
-                            data.errors
-                        ) {
-
-
-                            const errors =
-                                Object
-                                    .values(
-                                        data.errors
-                                    )
-                                    .flat()
-                                    .join("\n");
-
-
-                            throw new Error(
-                                errors
-                            );
-
-                        }
-
-
-                        throw new Error(
-
-                            data.message ||
-                            "Ucapan gagal dikirim."
-
-                        );
-
-                    }
-
-
-                    /*
-                     * Bersihkan form
-                     */
-
-                    nameInput.value =
-                        "";
-
-                    messageInput.value =
-                        "";
-
-
-                    /*
-                     * Reload ucapan
-                     */
-
-                    await renderWishes();
-
-
-                    /*
-                     * Berhasil
-                     */
+                if (!message) {
 
                     alert(
-                        "Ucapan berhasil dikirim. Terima kasih ❤️"
+                        "Mohon tuliskan ucapan."
                     );
 
+                    wishText.focus();
 
-                } catch (error) {
-
-
-                    console.error(
-                        error
-                    );
-
-
-                    alert(
-
-                        error.message ||
-                        "Terjadi kesalahan saat mengirim ucapan."
-
-                    );
-
-
-                } finally {
-
-
-                    button.disabled =
-                        false;
-
-
-                    button.textContent =
-                        "Kirim Ucapan";
+                    return;
 
                 }
 
-            };
+
+                /*
+                 * Ambil ucapan lama
+                 */
+
+                const wishes =
+                    getWishes();
 
 
-        /* =================================================
-           LOAD UCAPAN SAAT HALAMAN DIBUKA
-        ================================================= */
+                /*
+                 * Tambahkan ucapan baru
+                 */
 
-        renderWishes();
+                wishes.unshift({
+
+                    name:
+                        name,
+
+                    message:
+                        message,
+
+                    date:
+                        new Date()
+                            .toISOString()
+
+                });
 
 
-    </script>
+                /*
+                 * Simpan
+                 */
+
+                saveWishes(
+                    wishes
+                );
+
+
+                /*
+                 * Bersihkan form
+                 */
+
+                wishName.value =
+                    "";
+
+                wishText.value =
+                    "";
+
+
+                /*
+                 * Tampilkan ulang
+                 */
+
+                renderWishes();
+
+
+                /*
+                 * Notifikasi
+                 */
+
+                alert(
+                    "Ucapan berhasil dikirim. Terima kasih ❤️"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       LOAD UCAPAN
+    ===================================================== */
+
+    renderWishes();
+
+
+</script>
 
 
 </body>
